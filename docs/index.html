@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="An image gallery.">
+<title>Gallery</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="site-title">GALLERY<span class="count" id="headerCount"></span></div>
+  <input
+    type="search"
+    id="searchInput"
+    class="search-box"
+    placeholder="Search title, description, tags…"
+    aria-label="Search gallery"
+  >
+  <div class="header-spacer"></div>
+  <button id="themeToggle" class="theme-toggle" aria-label="Toggle dark mode" aria-pressed="false">◐</button>
+</header>
+
+<nav class="tag-rail" id="tagRail" aria-label="Filter by tag" hidden></nav>
+
+<main class="gallery-container">
+  <div id="skeletonGrid" class="skeleton-grid" aria-hidden="true"></div>
+  <div id="gallery" class="masonry-grid" role="region" aria-label="Images" hidden></div>
+  <div id="emptyState" class="empty-state" hidden>No images match your search.</div>
+  <div id="errorState" class="error-state" hidden></div>
+
+  <div class="status-row" id="statusRow" hidden>
+    <div class="status-count" id="statusCount"></div>
+    <button id="loadMoreBtn" class="load-more-btn" hidden>Load more</button>
+  </div>
+</main>
+
+<div class="lightbox" id="lightbox" hidden role="dialog" aria-modal="true" aria-labelledby="lightboxTitle">
+  <button class="lightbox-close" id="lightboxClose" aria-label="Close">×</button>
+  <div class="lightbox-body">
+    <div class="lightbox-media">
+      <img id="lightboxImage" src="" alt="">
+    </div>
+    <div class="lightbox-panel">
+      <h2 class="lightbox-title" id="lightboxTitle"></h2>
+      <p class="lightbox-desc" id="lightboxDesc"></p>
+      <div class="lightbox-tags" id="lightboxTags"></div>
+      <div class="lightbox-meta" id="lightboxMeta"></div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+<script src="assets/gallery.js"></script>
+</body>
+</html>

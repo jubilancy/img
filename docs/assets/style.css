@@ -1,0 +1,495 @@
+/* ==========================================================================
+   Tokens
+   ========================================================================== */
+
+:root {
+  --bg: #fafaf8;
+  --ink: #111110;
+  --ink-soft: #6b6b66;
+  --line: #dddad2;
+  --panel: #ffffff;
+  --accent: #e8542e;
+
+  --mono: "IBM Plex Mono", "SF Mono", Menlo, Consolas, monospace;
+  --sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+
+  --gutter: 2px;
+  --radius: 2px;
+
+  --header-h: 64px;
+}
+
+[data-theme="dark"] {
+  --bg: #0d0d0c;
+  --ink: #f2f1ed;
+  --ink-soft: #8f8d86;
+  --line: #2a2a27;
+  --panel: #171715;
+  --accent: #ff6a3d;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--sans);
+  transition: background-color 0.25s ease, color 0.25s ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.001ms !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+a {
+  color: inherit;
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* ==========================================================================
+   Header — fixed, thin, gets out of the way
+   ========================================================================== */
+
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  height: var(--header-h);
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 0 1.25rem;
+  background: color-mix(in srgb, var(--bg) 88%, transparent);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--line);
+}
+
+.site-title {
+  font-family: var(--mono);
+  font-size: 0.8125rem;
+  letter-spacing: 0.02em;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.site-title .count {
+  color: var(--ink-soft);
+  font-weight: 400;
+  margin-left: 0.5em;
+}
+
+.search-box {
+  flex: 1;
+  max-width: 420px;
+  height: 34px;
+  padding: 0 0.75rem;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 0.875rem;
+}
+
+.search-box::placeholder {
+  color: var(--ink-soft);
+}
+
+.search-box:focus {
+  border-color: var(--ink-soft);
+}
+
+.header-spacer {
+  flex: 1;
+}
+
+.theme-toggle {
+  width: 34px;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  color: var(--ink);
+  cursor: pointer;
+  font-size: 0.9rem;
+  flex-shrink: 0;
+}
+
+.theme-toggle:hover {
+  border-color: var(--ink-soft);
+}
+
+/* ==========================================================================
+   Tag rail
+   ========================================================================== */
+
+.tag-rail {
+  display: flex;
+  gap: 0.5rem;
+  overflow-x: auto;
+  padding: 0.75rem 1.25rem;
+  border-bottom: 1px solid var(--line);
+  scrollbar-width: thin;
+}
+
+.tag-rail::-webkit-scrollbar {
+  height: 4px;
+}
+
+.tag-pill {
+  flex-shrink: 0;
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  padding: 0.3rem 0.65rem;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--ink-soft);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: border-color 0.15s, color 0.15s, background-color 0.15s;
+}
+
+.tag-pill:hover {
+  border-color: var(--ink-soft);
+  color: var(--ink);
+}
+
+.tag-pill.active {
+  background: var(--ink);
+  border-color: var(--ink);
+  color: var(--bg);
+}
+
+/* ==========================================================================
+   Masonry grid
+   ========================================================================== */
+
+.gallery-container {
+  padding: var(--gutter);
+}
+
+.masonry-grid {
+  column-count: 2;
+  column-gap: var(--gutter);
+}
+
+@media (min-width: 560px) {
+  .masonry-grid { column-count: 3; }
+}
+@media (min-width: 820px) {
+  .masonry-grid { column-count: 4; }
+}
+@media (min-width: 1100px) {
+  .masonry-grid { column-count: 5; }
+}
+@media (min-width: 1440px) {
+  .masonry-grid { column-count: 6; }
+}
+@media (min-width: 1800px) {
+  .masonry-grid { column-count: 7; }
+}
+
+.tile {
+  break-inside: avoid;
+  margin-bottom: var(--gutter);
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--radius);
+  background: var(--panel);
+  cursor: pointer;
+  animation: rise 0.35s ease both;
+}
+
+@keyframes rise {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.tile img {
+  display: block;
+  width: 100%;
+  height: auto;
+  background: var(--panel);
+}
+
+.tile-label {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 0.6rem 0.65rem 0.55rem;
+  background: linear-gradient(to top, rgba(0,0,0,0.72), rgba(0,0,0,0));
+  opacity: 0;
+  transition: opacity 0.15s ease;
+  pointer-events: none;
+}
+
+.tile:hover .tile-label,
+.tile:focus-visible .tile-label {
+  opacity: 1;
+}
+
+.tile-label-title {
+  color: #fff;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.tile-label-source {
+  color: rgba(255,255,255,0.72);
+  font-family: var(--mono);
+  font-size: 0.6875rem;
+  margin-top: 0.15rem;
+}
+
+/* ==========================================================================
+   Status row: count + load more
+   ========================================================================== */
+
+.status-row {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  padding: 2.5rem 1rem 4rem;
+  text-align: center;
+}
+
+.status-count {
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  color: var(--ink-soft);
+}
+
+.load-more-btn {
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.03em;
+  padding: 0.65rem 1.5rem;
+  background: var(--ink);
+  color: var(--bg);
+  border: none;
+  border-radius: var(--radius);
+  cursor: pointer;
+}
+
+.load-more-btn:hover {
+  background: var(--accent);
+}
+
+.empty-state {
+  padding: 5rem 1rem;
+  text-align: center;
+  color: var(--ink-soft);
+  font-family: var(--mono);
+  font-size: 0.8125rem;
+}
+
+/* ==========================================================================
+   Loading skeletons
+   ========================================================================== */
+
+.skeleton-grid {
+  column-count: 2;
+  column-gap: var(--gutter);
+  padding: var(--gutter);
+}
+@media (min-width: 560px) { .skeleton-grid { column-count: 3; } }
+@media (min-width: 820px) { .skeleton-grid { column-count: 4; } }
+@media (min-width: 1100px) { .skeleton-grid { column-count: 5; } }
+
+.skeleton-tile {
+  break-inside: avoid;
+  margin-bottom: var(--gutter);
+  border-radius: var(--radius);
+  background: linear-gradient(100deg, var(--line) 30%, var(--panel) 50%, var(--line) 70%);
+  background-size: 200% 100%;
+  animation: shimmer 1.4s infinite;
+}
+
+@keyframes shimmer {
+  from { background-position: 150% 0; }
+  to { background-position: -50% 0; }
+}
+
+/* ==========================================================================
+   Lightbox — full detail drawer
+   ========================================================================== */
+
+.lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(10, 10, 8, 0.88);
+  padding: 1.5rem;
+  animation: fade 0.2s ease;
+}
+
+.lightbox[hidden] {
+  display: none;
+}
+
+@keyframes fade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.lightbox-body {
+  width: 100%;
+  max-width: 1100px;
+  max-height: 90vh;
+  background: var(--panel);
+  border-radius: 4px;
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 760px) {
+  .lightbox-body {
+    grid-template-columns: minmax(0, 1.6fr) minmax(260px, 1fr);
+  }
+}
+
+.lightbox-media {
+  background: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  max-height: 90vh;
+  overflow: hidden;
+}
+
+.lightbox-media img {
+  width: 100%;
+  height: 100%;
+  max-height: 90vh;
+  object-fit: contain;
+}
+
+.lightbox-panel {
+  padding: 1.75rem;
+  overflow-y: auto;
+  border-top: 1px solid var(--line);
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+}
+
+@media (min-width: 760px) {
+  .lightbox-panel {
+    border-top: none;
+    border-left: 1px solid var(--line);
+  }
+}
+
+.lightbox-title {
+  font-size: 1.2rem;
+  font-weight: 600;
+  line-height: 1.35;
+}
+
+.lightbox-desc {
+  font-size: 0.875rem;
+  line-height: 1.6;
+  color: var(--ink-soft);
+}
+
+.lightbox-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.lightbox-tag {
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  padding: 0.25rem 0.6rem;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--ink-soft);
+  cursor: pointer;
+}
+
+.lightbox-tag:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.lightbox-meta {
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  color: var(--ink-soft);
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--line);
+}
+
+.lightbox-meta a {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+.lightbox-meta a:hover {
+  text-decoration: underline;
+}
+
+.lightbox-close {
+  position: absolute;
+  top: 1.5rem;
+  right: 1.5rem;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0,0,0,0.4);
+  border: none;
+  border-radius: 50%;
+  color: #fff;
+  font-size: 1.25rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.lightbox-close:hover {
+  background: var(--accent);
+}
+
+/* ==========================================================================
+   Error state
+   ========================================================================== */
+
+.error-state {
+  padding: 4rem 1.5rem;
+  text-align: center;
+  font-family: var(--mono);
+  font-size: 0.8125rem;
+  color: var(--ink-soft);
+  max-width: 480px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
